@@ -38,7 +38,7 @@
 	</update>
 	
 	<delete id = "delete">
-	
+	DELETE FROM tbl_product WHERE p_code = #{p_code}
 	</delete>
 		
 

@@ -77,44 +77,72 @@ public class ProductService {
 		else return false;
 		
 	}
-	public void updatePRO() {
-		System.out.println("==============================");
-		System.out.println("상품정보수정");
-		System.out.println("------------------------------");
-		System.out.print("수정할 상품번호 >> ");
-		String strId = scan.nextLine();
-		
-		long io_seq = Long.valueOf(strId);
-		ProductVO vo = proDao.findByCode();
-		if(vo == null) {
-			System.out.println("상품정보 없음");
-			
+	public boolean updatePRO() {
+		while (true) {
+			System.out.println("===================================");
+			System.out.println("상품정보 변경");
+			System.out.println("-----------------------------------");
+			System.out.print("상품코드 입력 >>");
+			String strPcode = scan.nextLine();
+			ProductVO vo = proDao.findByCode(strPcode);
+			if (vo == null) {
+				System.out.println("상품정보가 없습니다.");
+				continue;
+			}
+			System.out.printf("상품이름 입력 %s>>", vo.getP_name());
+			String strName = scan.nextLine();
+			if (strName.isEmpty())
+				strName = vo.getP_name();
+
+			System.out.printf("매입금액 입력 %d>>", vo.getP_iprice());
+			String strIprice = scan.nextLine();
+			int intIprice = 0;
+			if (strIprice.isEmpty())
+				intIprice = vo.getP_iprice();
+			else
+				intIprice = Integer.valueOf(strIprice);
+			System.out.printf("매출금액 입력 %d>>", vo.getP_oprice());
+			String strOprice = scan.nextLine();
+			int intOprice = 0;
+			if (strOprice.isEmpty())
+				intOprice = vo.getP_oprice();
+			else
+				intOprice = Integer.valueOf(intOprice);
+
+			vo.setP_code(strPcode);
+			vo.setP_name(strName);
+			vo.setP_iprice(intIprice);
+			vo.setP_oprice(intIprice);
+
+			if (proDao.update(vo) > 0) {
+				System.out.println("업데이트 완료");
+				return true;
+			} else {
+				System.out.println("업데이트 실패");
+				return false;
+			}
 		}
-		
-		System.out.printf("상품코드 %s>> ", vo.getP_code();
-		String strCcode = scan.nextLine();
-		if(strCcode.isEmpty()) strCcode = vo.getP_code();
-		
-		
-			
-		
+
 	}
 	
 	public boolean deletePRO() {
 		System.out.print("삭제할 거래내역 >> ");
-		String strId = scan.nextLine();
-		Long io_seq = Long.valueOf(strId);
-		
-		ProductVO vo = proDao.findByCode(io_seq);
-		System.out.println();
+		String strPcode = scan.nextLine();
+	
+		ProductVO vo = proDao.findByCode(strPcode);
+		System.out.println(vo);
 		System.out.println("정말 삭제할까요? (YES)");
 		String confirm = scan.nextLine();
 		if(confirm.equals("YES")) {
-			if(proDao.findByCode(p_code) > 0) return true;
+			if(proDao.delete(strPcode) > 0) {
+				System.out.println("삭제되었습니다");
+				return true;
+			}
 			else return false;
 		}
 		return false;
 	}
+	
 	}
 
 
