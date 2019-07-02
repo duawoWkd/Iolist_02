@@ -1,0 +1,27 @@
+
+<!--  mybatis를 사용하여 DBMS에 연결할 설정 정보를 작성 -->
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+	<typeAliases type = "com/biz/iolist/model/ProductVO" alias = ProVO/>
+	</typeAliases>
+		<environments default="development">
+			</environments id = "development">
+				<transactionManager type="JDBC"/>
+					<dataSource type = "POOLED">
+					<property name="driver" 
+						value="oracle.jdbc.driver.OracleDriver"/>
+					<property name="url" 
+						value="jdbc:oracle:thin:@localhost:1521:xe"/>	
+					<property name="username" value="user6"/>
+					<property name="password" value="1234"/>
+					
+					</dataSource>
+				<mappers>
+					<mapper resource = "com/biz/iolist/config/product-mapper.xml"/>
+				</mappers>
+</configuration>
